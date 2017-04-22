@@ -1,0 +1,417 @@
+HOST: https://q.quanti.cz/api/v1
+
+--- Quanti - Mailing V1 Resources ---
+
+---
+Mailing is the web application project for Quanti Ltd company. 
+
+- Data are taken and provided only in the format **application/json**! 
+- If an error occurs, the API returns the error description and sets the **HTTP (4xx) code**. 
+- Each request must be set the **Content-Type** header with the value of **application/json**. 
+- The decimal separator is a **period** (not a comma!).
+- When sending a request, you MUST always check that the server returned **HTTP response code 2xx**. If the code is different, the request was not processed successfully. 
+- Each request (except authentication) must be sent with the **X-Api-Key header**. For getting the value for your company, please, contact ondrej.hrabal@quanti.cz
+- DateTimes are specified in the **ISO 8601** format.
+- Use only the **UTF-8** encoding.
+---
+
+--
+Notification Resources
+Notification API is used for managing transactional emails
+--
+Gets all Customer entries with its SenderEmail entries for current user
+GET /customers/current
+> Accept: application/json
+> X-Api-Key: abcd
+< 200
+< Content-Type: application/json
+[
+    { "id": 2,
+      "name": "Second Customer",
+      "senderEmails": [
+          {"id": 4, "senderEmail": "secondcustomer@quanti.sk"},
+          {"id": 3, "senderEmail": "secondcustomer@quanti.cz"}
+       ]
+    },
+    { "id": 1,
+      "name": "First Customer",
+      "senderEmails": [
+          {"id": 1, "senderEmail": "firsrtcustomer@quanti.cz"},
+          {"id": 2, "senderEmail": "firsrtcustomer@quanti.sk"}
+       ]      
+    }
+]
++++++
+< 400
+< Content-Type: application/json
+{
+    "error": {
+        "code": 123,
+        "message": "Wrong entity data",
+        "developerMessage": "Wrong entity data in blablabla"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Creates Mail entry for mailing, encode template data by base64
+POST /mails
+> Content-Type: application/json
+> Accept: application/json
+> X-Api-Key: abcd
+{ 
+    "customer": "Second Customer", 
+    "senderEmail": "secondcustomer@quanti.cz", 
+    "name": "Test", 
+    "code": "ABCD", 
+    "text": base64Encode("Alternative email text"),
+    "template": base64Encode("<html><body>....")
+ }
+< 201
+< Content-Type: application/json
+< Location: /mail/{id}
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 409
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Updates Mail entry for mailing, encode template data by base64
+PUT /mails/{id}
+> Content-Type: application/json
+> Accept: application/json
+> X-Api-Key: abcd
+{ 
+    "customer": "Second Customer", 
+    "senderEmail": "secondcustomer@quanti.cz", 
+    "name": "Test", 
+    "code": "ABCD", 
+    "text": base64Encode("Alternative email text"),
+    "template": base64Encode("<html><body>....")
+ }
+< 204
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 409
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Get Mail entry id by code
+GET /mails/id?key=code&value={my-code}
+> Accept: application/json
+> X-Api-Key: abcd
+< 200
+< Content-Type: application/json
+{
+    "id": 1
+}
++++++
+< 400
+< Content-Type: application/json
+{
+    "error": {
+        "code": 123,
+        "message": "Wrong entity data",
+        "developerMessage": "Wrong entity data in blablabla"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Get Mail entry by id
+GET /mails/{id}
+> Accept: application/json
+> X-Api-Key: abcd
+< 200
+< Content-Type: application/json
+{
+    "id": 7
+    "name": "Test"
+    "code": "qqq"
+    "text": "Alternative email text",
+    "template": "YWxlbHVqYQ=="
+    "appliedSenderEmail": "firsrtcustomer@quanti.cz"
+    "status": "new"
+    "priority": 1
+}
++++++
+< 400
+< Content-Type: application/json
+{
+    "error": {
+        "code": 123,
+        "message": "Wrong entity data",
+        "developerMessage": "Wrong entity data in blablabla"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+
+Deleted Mail entry if is not processed yet
+DELETE /mails/{id}
+> Accept: application/json
+< 204
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Creates MailData entry for sending mail to user
+POST /mails/{id}/data
+> Content-Type: application/json
+> Accept: application/json
+> X-Api-Key: abcd
+{ 
+    "recipientEmail": "secondcustomer@quanti.cz", 
+    "replyToEmail": "reply-to@email.com",
+    "dateFrom": "2014-06-19T06:00:00.000",
+    "data": {
+        "osloveni": "Bacos zdar",
+        "sloveso": "rekl"
+    },
+    "attachments":[
+        {
+            "displayName": "Priloha 1",
+            "link": null,
+            "source": "base64text",
+            "mimeType": "text/plain"
+        },
+        {
+            "displayName": "Priloha 2",
+            "link": "odkaz na zdroj",
+            "source": "base64text",
+            "mimeType": "image/jpeg"
+        }
+    ]
+ }
+< 201
+< Content-Type: application/json
+< Location: /mail-data/{id}
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 409
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Get all MailData entries for Mail
+GET /mails/{id}/data
+> Accept: application/json
+> X-Api-Key: abcd
+[
+    {
+        "id": 1
+        "email": "secondcustomer@quanti.cz",
+        "replyToEmail": "reply-to@email.com",
+        "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
+        "undeliveredTimestamp": null,
+        "unsubscribedTimestamp": "2014-09-11T17:02:27.761+02:00",
+        "data": {
+            "osloveni":"Bacos zdar",
+            "sloveso":"rekl"
+        },
+        "attachments":[
+            {
+                "displayName": "Priloha 1",
+                "fileName": "attachment--0000-2222-3333-4444",
+                "link": "http://img.quanti.cz/obr1.png",
+                "mimeType": "text/plain"
+            },
+            {
+                "displayName": "Priloha 2",
+                "fileName": "attachment--1111-2222-3333-4444",
+                "link": "http://img.quanti.cz/obr2.png",
+                "mimeType": "image/jpeg"
+            }
+        ]
+    }
+]
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Get MailData entry for Mail
+GET /mails/{id}/data/{id}
+> Accept: application/json
+> X-Api-Key: abcd
+{
+    "id": 1
+    "email": "secondcustomer@quanti.cz"
+    "replyToEmail": "reply-to@email.com",
+    "timestamp": null
+    "data": {
+        "osloveni":"Bacos zdar",
+        "sloveso":"rekl"
+    },
+    "attachments":[
+        {
+            "displayName": "Priloha 1",
+            "fileName": "attachment--0000-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr1.png",
+            "mimeType": "text/plain"
+        },
+        {
+            "displayName": "Priloha 2",
+            "fileName": "attachment--1111-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr2.png",
+            "mimeType": "image/jpeg"
+        }
+    ]
+}
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
