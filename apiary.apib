@@ -110,6 +110,120 @@ POST /mails
 < Content-Type: application/json
 
 
+Get list of possible postfix messages
+GET /mails/postfix-messages
+> Accept: application/json
+> X-Api-Key: abcd
+< 200
+< Content-Type: application/json
+{
+  "postfixMessages": [
+    "NEW",
+    "SENT",
+    "DELIVERED",
+    "ERROR",
+    "ABORTED",
+    "DEFERRED",
+    "DEFERRED_GREYLISTING",
+    "DEFAULT",
+    "UNSENT"
+  ]
+}
++++++
+< 400
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+
+
+Get list of possible email statuses
+GET /mails/email-statuses
+> Accept: application/json
+> X-Api-Key: abcd
+< 200
+< Content-Type: application/json
+{
+  "emailStatuses": [
+    "OK",
+    "INVALID_ADDRESS",
+    "UNRESOLVED_MX",
+    "UNKNOWN_ERROR",
+    "UNSUBSCRIBED",
+    "PREVIOUSLY_UNDELIVERED",
+    "UNSENT"
+  ]
+}
++++++
+< 400
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+
+
+Get list of possible notification statuses
+GET /mails/email-statuses
+> Accept: application/json
+> X-Api-Key: abcd
+< 200
+< Content-Type: application/json
+{
+  "statuses": [
+    "READY",
+    "FINISHED"
+  ]
+}
++++++
+< 400
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+
+
 Updates Mail entry for mailing, encode template data by base64
 PUT /mails/{id}
 > Content-Type: application/json
@@ -233,7 +347,6 @@ GET /mails/{id}
 < Content-Type: application/json
 
 
-
 Deleted Mail entry if is not processed yet
 DELETE /mails/{id}
 > Accept: application/json
@@ -272,6 +385,12 @@ POST /mails/{id}/data
         "osloveni": "Bacos zdar",
         "sloveso": "rekl"
     },
+    "cc": [
+        "ccemail@quanti.cz"
+    ],
+    "bcc": [
+        "bccemail@quanti.cz"
+    ],
     "attachments":[
         {
             "displayName": "Priloha 1",
@@ -322,9 +441,15 @@ GET /mails/{id}/data
         "id": 1
         "email": "secondcustomer@quanti.cz",
         "replyToEmail": "reply-to@email.com",
+        "created": "2014-09-11T16:02:27.761+02:00",
         "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
         "undeliveredTimestamp": null,
-        "unsubscribedTimestamp": "2014-09-11T17:02:27.761+02:00",
+        "cc": [
+            "ccemail@quanti.cz"
+        ],
+        "bcc": [
+            "bccemail@quanti.cz"
+        ],
         "data": {
             "osloveni":"Bacos zdar",
             "sloveso":"rekl"
@@ -342,7 +467,9 @@ GET /mails/{id}/data
                 "link": "http://img.quanti.cz/obr2.png",
                 "mimeType": "image/jpeg"
             }
-        ]
+        ],
+        "emailStatus": "OK",
+        "postfixMessage": "DELIVERED"
     }
 ]
 < 200
@@ -375,7 +502,15 @@ GET /mails/{id}/data/{id}
     "id": 1
     "email": "secondcustomer@quanti.cz"
     "replyToEmail": "reply-to@email.com",
-    "timestamp": null
+    "created": "2014-09-11T16:02:27.761+02:00",
+    "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
+    "undeliveredTimestamp": null,
+    "cc": [
+        "ccemail@quanti.cz"
+    ],
+    "bcc": [
+        "bccemail@quanti.cz"
+    ],
     "data": {
         "osloveni":"Bacos zdar",
         "sloveso":"rekl"
@@ -393,7 +528,9 @@ GET /mails/{id}/data/{id}
             "link": "http://img.quanti.cz/obr2.png",
             "mimeType": "image/jpeg"
         }
-    ]
+    ],
+    "emailStatus": "OK",
+    "postfixMessage": "DELIVERED"
 }
 < 200
 < Content-Type: application/json
