@@ -71,26 +71,29 @@ GET /customers/current
 
 
 --
-Notification Resources
-Notification API is used for managing transactional emails
+Notification Email Status Resources
 --
 
-Creates Mail entry for mailing, encode template data by base64
-POST /mails
-> Content-Type: application/json
+Get list of possible Notification email statuses
+GET /mails/email-statuses
 > Accept: application/json
 > X-Api-Key: abcd
-{ 
-    "customer": "Second Customer", 
-    "senderEmail": "secondcustomer@quanti.cz", 
-    "name": "Test", 
-    "code": "ABCD", 
-    "text": base64Encode("Alternative email text"),
-    "template": base64Encode("<html><body>....")
- }
-< 201
+< 200
 < Content-Type: application/json
-< Location: /mail/{id}
+{
+  "emailStatuses": [
+    "OK",
+    "INVALID_ADDRESS",
+    "UNRESOLVED_MX",
+    "UNKNOWN_ERROR",
+    "UNSUBSCRIBED",
+    "PREVIOUSLY_UNDELIVERED",
+    "UNSENT"
+  ]
+}
++++++
+< 400
+< Content-Type: application/json
 +++++
 < 401
 < Content-Type: application/json
@@ -104,17 +107,17 @@ POST /mails
 < 406
 < Content-Type: application/json
 +++++
-< 409
-< Content-Type: application/json
-+++++
 < 500
 < Content-Type: application/json
 +++++
 < 503
-< Content-Type: application/json
 
 
-Get list of possible MailData postfix messages
+--
+Notification Email Postfix Message Resources
+--
+
+Get list of possible Email postfix messages
 GET /mails/postfix-messages
 > Accept: application/json
 > X-Api-Key: abcd
@@ -155,46 +158,11 @@ GET /mails/postfix-messages
 < 503
 
 
-Get list of possible MailData statuses
-GET /mails/email-statuses
-> Accept: application/json
-> X-Api-Key: abcd
-< 200
-< Content-Type: application/json
-{
-  "emailStatuses": [
-    "OK",
-    "INVALID_ADDRESS",
-    "UNRESOLVED_MX",
-    "UNKNOWN_ERROR",
-    "UNSUBSCRIBED",
-    "PREVIOUSLY_UNDELIVERED",
-    "UNSENT"
-  ]
-}
-+++++
-< 400
-< Content-Type: application/json
-+++++
-< 401
-< Content-Type: application/json
-+++++
-< 403
-< Content-Type: application/json
-+++++
-< 405
-< Content-Type: application/json
-+++++
-< 406
-< Content-Type: application/json
-+++++
-< 500
-< Content-Type: application/json
-+++++
-< 503
+--
+Notification Status Resources
+--
 
-
-Get list of possible Mail statuses
+Get list of possible Notification statuses
 GET /mails/email-statuses
 > Accept: application/json
 > X-Api-Key: abcd
@@ -228,7 +196,51 @@ GET /mails/email-statuses
 < 503
 
 
-Updates Mail entry for mailing, encode template data by base64
+--
+Notification Resources
+Notification API is used for managing transactional emails
+--
+
+Creates Notification
+POST /mails
+> Content-Type: application/json
+> Accept: application/json
+> X-Api-Key: abcd
+{ 
+    "customer": "Second Customer", 
+    "senderEmail": "secondcustomer@quanti.cz", 
+    "name": "Test", 
+    "code": "ABCD", 
+    "text": base64Encode("Alternative email text"),
+    "template": base64Encode("<html><body>....")
+ }
+< 201
+< Content-Type: application/json
+< Location: /mail/{id}
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 409
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Updates Notification
 PUT /mails/{id}
 > Content-Type: application/json
 > Accept: application/json
@@ -266,7 +278,7 @@ PUT /mails/{id}
 < Content-Type: application/json
 
 
-Get Mail entry id by code
+Get Notification by code
 GET /mails/id?key=code&value={my-code}
 > Accept: application/json
 > X-Api-Key: abcd
@@ -305,7 +317,7 @@ GET /mails/id?key=code&value={my-code}
 < Content-Type: application/json
 
 
-Get Mail entry by id
+Get Notification by id
 GET /mails/{id}
 > Accept: application/json
 > X-Api-Key: abcd
@@ -351,7 +363,7 @@ GET /mails/{id}
 < Content-Type: application/json
 
 
-Deleted Mail entry if is not processed yet
+Deletes Notification if it was not processed yet
 DELETE /mails/{id}
 > Accept: application/json
 < 204
@@ -376,7 +388,11 @@ DELETE /mails/{id}
 < Content-Type: application/json
 
 
-Creates MailData entry for sending mail to user
+--
+Notification Email Resources
+--
+
+Creates Email entry for sending mail to user
 POST /mails/{id}/data
 > Content-Type: application/json
 > Accept: application/json
@@ -436,7 +452,7 @@ POST /mails/{id}/data
 < Content-Type: application/json
 
 
-Get all MailData entries for Mail
+Get Notification Emails
 GET /mails/{id}/data
 > Accept: application/json
 > X-Api-Key: abcd
@@ -498,7 +514,7 @@ GET /mails/{id}/data
 < Content-Type: application/json
 
 
-Get MailData entry for Mail
+Get Notification Email
 GET /mails/{id}/data/{id}
 > Accept: application/json
 > X-Api-Key: abcd
@@ -558,7 +574,11 @@ GET /mails/{id}/data/{id}
 < Content-Type: application/json
 
 
-Get MailData history for Mail
+--
+Notification history Resources
+--
+
+Get all Notification history
 GET /mails/{id}/history/{?type=opened/delivered/undelivered&from=2017-04-20T20:22:36+02:00&to=2017-04-25T20:22:36+02:00&limit=100&offset=0}
 > Accept: application/json
 > X-Api-Key: abcd
@@ -652,7 +672,11 @@ GET /mails/{id}/history/{?type=opened/delivered/undelivered&from=2017-04-20T20:2
 < Content-Type: application/json
 
 
-Get MailData history for specific recipient email in Mail
+--
+Notification Email history Resources
+--
+
+Get Recipient email history for specific Notification
 GET /mails/{id}/history/{email}{?limit=100&offset=0}
 > Accept: application/json
 > X-Api-Key: abcd
