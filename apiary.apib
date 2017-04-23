@@ -16,8 +16,7 @@ Mailing is the web application project for Quanti Ltd company.
 ---
 
 --
-Notification Resources
-Notification API is used for managing transactional emails
+Customer Resources
 --
 Gets all Customer entries with its SenderEmail entries for current user
 GET /customers/current
@@ -71,6 +70,11 @@ GET /customers/current
 < Content-Type: application/json
 
 
+--
+Notification Resources
+Notification API is used for managing transactional emails
+--
+
 Creates Mail entry for mailing, encode template data by base64
 POST /mails
 > Content-Type: application/json
@@ -110,7 +114,7 @@ POST /mails
 < Content-Type: application/json
 
 
-Get list of possible postfix messages
+Get list of possible MailData postfix messages
 GET /mails/postfix-messages
 > Accept: application/json
 > X-Api-Key: abcd
@@ -151,7 +155,7 @@ GET /mails/postfix-messages
 < 503
 
 
-Get list of possible email statuses
+Get list of possible MailData statuses
 GET /mails/email-statuses
 > Accept: application/json
 > X-Api-Key: abcd
@@ -190,7 +194,7 @@ GET /mails/email-statuses
 < 503
 
 
-Get list of possible notification statuses
+Get list of possible Mail statuses
 GET /mails/email-statuses
 > Accept: application/json
 > X-Api-Key: abcd
@@ -269,7 +273,7 @@ GET /mails/id?key=code&value={my-code}
 < 200
 < Content-Type: application/json
 {
-    "id": 1
+    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
 }
 +++++
 < 400
@@ -308,7 +312,7 @@ GET /mails/{id}
 < 200
 < Content-Type: application/json
 {
-    "id": 7
+    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
     "name": "Test"
     "code": "qqq"
     "text": "Alternative email text",
@@ -438,7 +442,7 @@ GET /mails/{id}/data
 > X-Api-Key: abcd
 [
     {
-        "id": 1
+        "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
         "email": "secondcustomer@quanti.cz",
         "replyToEmail": "reply-to@email.com",
         "created": "2014-09-11T16:02:27.761+02:00",
@@ -499,7 +503,7 @@ GET /mails/{id}/data/{id}
 > Accept: application/json
 > X-Api-Key: abcd
 {
-    "id": 1
+    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
     "email": "secondcustomer@quanti.cz"
     "replyToEmail": "reply-to@email.com",
     "created": "2014-09-11T16:02:27.761+02:00",
@@ -532,6 +536,194 @@ GET /mails/{id}/data/{id}
     "emailStatus": "OK",
     "postfixMessage": "DELIVERED"
 }
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Get MailData history for Mail
+GET /mails/{id}/history/{?type=opened/delivered/undelivered&from=2017-04-20T20:22:36+02:00&to=2017-04-25T20:22:36+02:00&limit=100&offset=0}
+> Accept: application/json
+> X-Api-Key: abcd
+[{
+    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
+    "email": "secondcustomer@quanti.cz"
+    "replyToEmail": "reply-to@email.com",
+    "created": "2014-09-11T16:02:27.761+02:00",
+    "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
+    "undeliveredTimestamp": null,
+    "cc": [
+        "ccemail@quanti.cz"
+    ],
+    "bcc": [
+        "bccemail@quanti.cz"
+    ],
+    "data": {
+        "osloveni":"Bacos zdar",
+        "sloveso":"rekl"
+    },
+    "attachments":[
+        {
+            "displayName": "Priloha 1",
+            "fileName": "attachment--0000-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr1.png",
+            "mimeType": "text/plain"
+        },
+        {
+            "displayName": "Priloha 2",
+            "fileName": "attachment--1111-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr2.png",
+            "mimeType": "image/jpeg"
+        }
+    ],
+    "emailStatus": "OK",
+    "postfixMessage": "DELIVERED"
+},
+{
+    "id": "0dce3e4f-66ca-4d8d-a777-f87c402b1608",
+    "email": "thirdcustomer@quanti.cz"
+    "replyToEmail": "reply-to@email.com",
+    "created": "2014-09-11T16:02:27.761+02:00",
+    "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
+    "undeliveredTimestamp": null,
+    "cc": [
+        "ccemail@quanti.cz"
+    ],
+    "bcc": [
+        "bccemail@quanti.cz"
+    ],
+    "data": {
+        "osloveni":"Bacos zdar",
+        "sloveso":"rekl"
+    },
+    "attachments":[
+        {
+            "displayName": "Priloha 1",
+            "fileName": "attachment--0000-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr1.png",
+            "mimeType": "text/plain"
+        },
+        {
+            "displayName": "Priloha 2",
+            "fileName": "attachment--1111-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr2.png",
+            "mimeType": "image/jpeg"
+        }
+    ],
+    "emailStatus": "OK",
+    "postfixMessage": "DELIVERED"
+}]
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+Get MailData history for specific recipient email in Mail
+GET /mails/{id}/history/{email}{?limit=100&offset=0}
+> Accept: application/json
+> X-Api-Key: abcd
+[{
+    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
+    "email": "secondcustomer@quanti.cz"
+    "replyToEmail": "reply-to@email.com",
+    "created": "2014-09-11T16:02:27.761+02:00",
+    "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
+    "undeliveredTimestamp": null,
+    "cc": [
+        "ccemail@quanti.cz"
+    ],
+    "bcc": [
+        "bccemail@quanti.cz"
+    ],
+    "data": {
+        "osloveni":"Bacos zdar",
+        "sloveso":"rekl"
+    },
+    "attachments":[
+        {
+            "displayName": "Priloha 1",
+            "fileName": "attachment--0000-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr1.png",
+            "mimeType": "text/plain"
+        },
+        {
+            "displayName": "Priloha 2",
+            "fileName": "attachment--1111-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr2.png",
+            "mimeType": "image/jpeg"
+        }
+    ],
+    "emailStatus": "OK",
+    "postfixMessage": "DELIVERED"
+},
+{
+    "id": "0dce3e4f-66ca-4d8d-a777-f87c402b1608",
+    "email": "secondcustomer@quanti.cz"
+    "replyToEmail": "reply-to@email.com",
+    "created": "2014-09-11T16:02:27.761+02:00",
+    "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
+    "undeliveredTimestamp": null,
+    "cc": [
+        "ccemail@quanti.cz"
+    ],
+    "bcc": [
+        "bccemail@quanti.cz"
+    ],
+    "data": {
+        "osloveni":"Bacos zdar",
+        "sloveso":"rekl"
+    },
+    "attachments":[
+        {
+            "displayName": "Priloha 1",
+            "fileName": "attachment--0000-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr1.png",
+            "mimeType": "text/plain"
+        },
+        {
+            "displayName": "Priloha 2",
+            "fileName": "attachment--1111-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr2.png",
+            "mimeType": "image/jpeg"
+        }
+    ],
+    "emailStatus": "OK",
+    "postfixMessage": "DELIVERED"
+}]
 < 200
 < Content-Type: application/json
 +++++
