@@ -578,10 +578,10 @@ GET /mails/{id}/data/{id}
 Notification history Resources
 --
 
-Get all Notification history
-GET /mails/{id}/history/{?type=opened/delivered/undelivered&from=2017-04-20T20:22:36+02:00&to=2017-04-25T20:22:36+02:00&limit=100&offset=0}
+Get all Notification history, type filter parameter one of opened/delivered/undelivered
+GET /mails/{id}/history/?type={type}&from={from}&to={to}&limit={limit}&offset={offset}
 > Accept: application/json
-> X-Api-Key: abcd
+> X-Api-Key: abcdparams fixed
 [{
     "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
     "email": "secondcustomer@quanti.cz"
@@ -677,7 +677,7 @@ Notification Email history Resources
 --
 
 Get Recipient email history for specific Notification
-GET /mails/{id}/history/{email}{?limit=100&offset=0}
+GET /mails/{id}/history/{email}?limit={limit}&offset={offset}
 > Accept: application/json
 > X-Api-Key: abcd
 [{
