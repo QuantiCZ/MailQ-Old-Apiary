@@ -768,3 +768,158 @@ GET /mails/{id}/history/{email}?limit={limit}&offset={offset}
 +++++
 < 503
 < Content-Type: application/json
+
+
+--
+Notification Statistics Resources
+--
+
+Get Statistics for specific Notification
+GET /mails/{id}/statistics?from={from}&to={to}
+> Accept: application/json
+> X-Api-Key: abcd
+{
+     "sent": 9,
+     "delivered": 9,
+     "opened": 7
+}
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+--
+Notification Opened Emails Statistics Resources
+--
+
+Get Opened Emails Statistics for specific Notification
+GET /mails/{id}/opened-emails?from={from}&to={to}&limit={limit}&offset={offset}
+> Accept: application/json
+> X-Api-Key: abcd
+[
+    {
+         "email": "info@firma.cz",
+         "openedTimestamp": "2014-06-06T16:39:34+02:00"
+    },
+    {
+         "email": "newsletter@mailq.cz",
+         "openedTimestamp": "2014-06-06T16:39:34+02:00"
+    }
+]
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+--
+Notification Unsent Emails Statistics Resources
+--
+
+Get Unsent Emails Statistics for specific Notification
+GET /mails/{id}/unsent-emails?from={from}&to={to}&limit={limit}&offset={offset}
+> Accept: application/json
+> X-Api-Key: abcd
+[
+    {
+         "email": "info@firma.cz",
+         "reason": "INVALID_ADDRESS"
+    },
+    {
+         "email": "newsletter@mailq.cz",
+         "reason": "UNRESOLVED_MX"
+    }
+]
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
+
+
+--
+Notification Undelivered Emails Statistics Resources
+--
+
+Get Undelivered Emails Statistics for specific Notification
+GET /mails/{id}/undelivered-emails?from={from}&to={to}&limit={limit}&offset={offset}
+> Accept: application/json
+> X-Api-Key: abcd
+[
+    {
+         "email": "info@firma.cz",
+         "reason": "DEFERRED"
+    },
+    {
+         "email": "newsletter@mailq.cz",
+         "reason": "ERROR"
+    }
+]
+< 200
+< Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
++++++
+< 403
+< Content-Type: application/json
++++++
+< 405
+< Content-Type: application/json
++++++
+< 406
+< Content-Type: application/json
++++++
+< 500
+< Content-Type: application/json
++++++
+< 503
+< Content-Type: application/json
