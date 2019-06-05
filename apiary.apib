@@ -163,7 +163,7 @@ Notification Status Resources
 --
 
 Get list of possible Notification statuses
-GET /mails/email-statuses
+GET /mails/statuses
 > Accept: application/json
 > X-Api-Key: abcd
 < 200
@@ -217,7 +217,7 @@ POST /mails
  }
 < 201
 < Content-Type: application/json
-< Location: /mail/{id}
+< Location: /mails/{id}
 +++++
 < 401
 < Content-Type: application/json
@@ -280,45 +280,6 @@ PUT /mails/{id}
 < Content-Type: application/json
 
 
-Get Notification by code
-GET /mails/id?key=code&value={my-code}
-> Accept: application/json
-> X-Api-Key: abcd
-< 200
-< Content-Type: application/json
-{
-    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
-}
-+++++
-< 400
-< Content-Type: application/json
-{
-    "error": {
-        "code": 123,
-        "message": "Wrong entity data",
-        "developerMessage": "Wrong entity data in blablabla"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-+++++
-< 403
-< Content-Type: application/json
-+++++
-< 405
-< Content-Type: application/json
-+++++
-< 406
-< Content-Type: application/json
-+++++
-< 500
-< Content-Type: application/json
-+++++
-< 503
-< Content-Type: application/json
-
-
 Get Notification by id
 GET /mails/{id}
 > Accept: application/json
@@ -333,8 +294,6 @@ GET /mails/{id}
     "template": "YWxlbHVqYQ==",
     "ampTemplate": "YWxlbHVqYQ==",
     "appliedSenderEmail": "firsrtcustomer@quanti.cz"
-    "status": "new"
-    "priority": 1
 }
 +++++
 < 400
@@ -431,7 +390,7 @@ POST /mails/{id}/data
  }
 < 201
 < Content-Type: application/json
-< Location: /mail-data/{id}
+< Location: /mails/{id}/data/{dataId}
 +++++
 < 401
 < Content-Type: application/json
