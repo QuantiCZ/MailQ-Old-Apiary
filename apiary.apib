@@ -212,7 +212,8 @@ POST /mails
     "name": "Test", 
     "code": "ABCD", 
     "text": base64Encode("Alternative email text"),
-    "template": base64Encode("<html><body>....")
+    "template": base64Encode("<html><body>...."),
+    "ampTemplate": base64Encode("<html amp><body>....")
  }
 < 201
 < Content-Type: application/json
@@ -251,7 +252,8 @@ PUT /mails/{id}
     "name": "Test", 
     "code": "ABCD", 
     "text": base64Encode("Alternative email text"),
-    "template": base64Encode("<html><body>....")
+    "template": base64Encode("<html><body>...."),
+    "ampTemplate": base64Encode("<html amp><body>....")
  }
 < 204
 < Content-Type: application/json
@@ -328,7 +330,8 @@ GET /mails/{id}
     "name": "Test"
     "code": "qqq"
     "text": "Alternative email text",
-    "template": "YWxlbHVqYQ=="
+    "template": "YWxlbHVqYQ==",
+    "ampTemplate": "YWxlbHVqYQ==",
     "appliedSenderEmail": "firsrtcustomer@quanti.cz"
     "status": "new"
     "priority": 1
