@@ -218,6 +218,15 @@ POST /mails
 < 201
 < Content-Type: application/json
 < Location: /mails/{id}
+{ 
+    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
+    "name": "Test"
+    "code": "qqq"
+    "text": "Alternative email text",
+    "template": "YWxlbHVqYQ==",
+    "ampTemplate": "YWxlbHVqYQ==",
+    "appliedSenderEmail": "firsrtcustomer@quanti.cz"
+ }
 +++++
 < 401
 < Content-Type: application/json
@@ -391,6 +400,40 @@ POST /mails/{id}/data
 < 201
 < Content-Type: application/json
 < Location: /mails/{id}/data/{dataId}
+{
+    "id": "e611021c-51d2-43df-87c9-f0a9d31504ea",
+    "email": "secondcustomer@quanti.cz",
+    "replyToEmail": "reply-to@email.com",
+    "created": "2014-09-11T16:02:27.761+02:00",
+    "openedTimestamp": "2014-09-11T17:02:27.761+02:00",
+    "undeliveredTimestamp": null,
+    "cc": [
+        "ccemail@quanti.cz"
+    ],
+    "bcc": [
+        "bccemail@quanti.cz"
+    ],
+    "data": {
+        "osloveni":"Bacos zdar",
+        "sloveso":"rekl"
+    },
+    "attachments":[
+        {
+            "displayName": "Priloha 1",
+            "fileName": "attachment--0000-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr1.png",
+            "mimeType": "text/plain"
+        },
+        {
+            "displayName": "Priloha 2",
+            "fileName": "attachment--1111-2222-3333-4444",
+            "link": "http://img.quanti.cz/obr2.png",
+            "mimeType": "image/jpeg"
+        }
+    ],
+    "emailStatus": "OK",
+    "postfixMessage": "DELIVERED"
+}
 +++++
 < 401
 < Content-Type: application/json
